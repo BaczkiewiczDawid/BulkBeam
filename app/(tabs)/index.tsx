@@ -1,31 +1,56 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import {StyleSheet, View, Text, Image} from 'react-native';
+import defaultUserIcon from "@/assets/images/default-user-icon.png"
+import {SafeAreaView} from "react-native-safe-area-context";
+import {LastTraining} from "@/components/Home/last-training";
 
 export default function HomeScreen() {
   return (
-      <div>BulkBeam</div>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Welcome back</Text>
+          <Text style={styles.username}>Dawid Bączkiewicz</Text>
+        </View>
+        <View>
+          <View style={styles.userBadge}>
+            <Image source={defaultUserIcon} style={styles.userBadgeImage} resizeMode={"cover"}/>
+          </View>
+        </View>
+      </View>
+      <LastTraining />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    paddingVertical: 38,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: {
+    color: "#414141",
+    fontSize: 18,
   },
+  username: {
+    fontWeight: "500",
+    fontSize: 24,
+    color: "#3050FE",
+  },
+  userBadge: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "transparent",
+    overflow: "hidden",
+  },
+  userBadgeImage: {
+    width: "100%",
+    height: "100%",
+  }
 });
