@@ -1,24 +1,28 @@
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, ScrollView} from 'react-native';
 import defaultUserIcon from "@/assets/images/default-user-icon.png"
 import {SafeAreaView} from "react-native-safe-area-context";
-import {LastTraining} from "@/components/Home/last-training";
+import {LastTraining} from "@/components/Home/LastTraining";
+import {WorkoutList} from "@/components/Home/WorkoutList";
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>Welcome back</Text>
-          <Text style={styles.username}>Dawid Bączkiewicz</Text>
-        </View>
-        <View>
-          <View style={styles.userBadge}>
-            <Image source={defaultUserIcon} style={styles.userBadgeImage} resizeMode={"cover"}/>
+    <ScrollView style={styles.scrollView}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.title}>Welcome back</Text>
+            <Text style={styles.username}>Dawid Bączkiewicz</Text>
+          </View>
+          <View>
+            <View style={styles.userBadge}>
+              <Image source={defaultUserIcon} style={styles.userBadgeImage} resizeMode={"cover"}/>
+            </View>
           </View>
         </View>
-      </View>
-      <LastTraining />
-    </SafeAreaView>
+        <LastTraining/>
+        <WorkoutList/>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -52,5 +56,8 @@ const styles = StyleSheet.create({
   userBadgeImage: {
     width: "100%",
     height: "100%",
+  },
+  scrollView: {
+    flex: 1,
   }
 });
