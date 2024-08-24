@@ -1,8 +1,11 @@
-import {View, Image, StyleSheet, Text} from "react-native";
+import {View, Image, StyleSheet, Text, Button, TouchableOpacity} from "react-native";
 import dummyImage from "@/assets/images/training-image.png";
 import {ClockIcon, ScaleIcon} from "react-native-heroicons/outline";
 import {timeFormatter} from "@/helpers/time-formatter";
 import {weightFormatter} from "@/helpers/weigth-formatter";
+import {useState} from "react";
+import {useNavigation} from '@react-navigation/native'
+import {WorkoutItemNavigationProp} from "@/types/navigation";
 
 type Props = {
   workoutName: string;
@@ -12,8 +15,14 @@ type Props = {
 }
 
 export const WorkoutItem = ({workoutName, description, time, weight}: Props) => {
+  const navigation = useNavigation<WorkoutItemNavigationProp>()
+
+  const handlePress = () => {
+    navigation.navigate('TrainingView', {workoutName: workoutName})
+  }
+
   return (
-    <View style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={handlePress}>
       <View>
         <Image source={dummyImage} resizeMode={"cover"}/>
       </View>
@@ -33,7 +42,7 @@ export const WorkoutItem = ({workoutName, description, time, weight}: Props) => 
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
