@@ -14,28 +14,12 @@ type Workout = {
   xata_id: string
 }
 
-export const WorkoutList = () => {
-  const workoutsList = [
-    {
-      workoutTitle: "Push A",
-      description: "Description of workout",
-      time: 126,
-      weight: 3546,
-    },
-    {
-      workoutTitle: "Push B",
-      description: "Description of workout",
-      time: 87,
-      weight: 3546,
-    },
-    {
-      workoutTitle: "Pull A",
-      description: "Description of workout",
-      time: 97,
-      weight: 3546,
-    },
-  ]
+type Props = {
+  title: string
+  detailsToShow: string[]
+}
 
+export const WorkoutList = ({ title, detailsToShow }: Props ) => {
   const [workoutList, setWorkoutList] = useState<Workout[]>([])
 
   const getWorkoutList = async () => {
@@ -58,11 +42,9 @@ export const WorkoutList = () => {
     fetchData()
   }, []);
 
-  console.log("workoutList", workoutList.map((workout) => workout.name))
-
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Next workout</Text>
+      <Text style={styles.subtitle}>{title}</Text>
       <View>
         {workoutList.map((workout, index) => (
           <WorkoutItem
@@ -71,6 +53,8 @@ export const WorkoutList = () => {
             description={workout.planData.description}
             time={workout.planData.time}
             weight={workout.planData.weight}
+            exercises={7}
+            detailsToShow={detailsToShow}
           />
         ))}
       </View>

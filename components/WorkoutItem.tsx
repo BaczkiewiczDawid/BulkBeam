@@ -12,9 +12,11 @@ type Props = {
   description: string;
   time: number,
   weight: number,
+  exercises: number
+  detailsToShow: string[]
 }
 
-export const WorkoutItem = ({workoutName, description, time, weight}: Props) => {
+export const WorkoutItem = ({workoutName, description, time, weight, exercises, detailsToShow}: Props) => {
   const navigation = useNavigation<WorkoutItemNavigationProp>()
 
   const handlePress = () => {
@@ -32,14 +34,24 @@ export const WorkoutItem = ({workoutName, description, time, weight}: Props) => 
           <Text style={styles.text}>{description}</Text>
         </View>
         <View style={styles.details}>
-          <View style={styles.detailsItem}>
-            <ClockIcon style={styles.icon}/>
-            <Text style={styles.text}>{timeFormatter(time)}</Text>
-          </View>
-          <View style={styles.detailsItem}>
-            <ScaleIcon style={styles.icon}/>
-            <Text style={styles.text}>{weightFormatter(weight)}kg</Text>
-          </View>
+          {detailsToShow.includes("time") && (
+            <View style={styles.detailsItem}>
+              <ClockIcon style={styles.icon}/>
+              <Text style={styles.text}>{timeFormatter(time)}</Text>
+            </View>
+          )}
+          {detailsToShow.includes("weight") && (
+            <View style={styles.detailsItem}>
+              <ScaleIcon style={styles.icon}/>
+              <Text style={styles.text}>{weightFormatter(weight)}kg</Text>
+            </View>
+          )}
+          {detailsToShow.includes("exercises") && (
+            <View style={styles.detailsItem}>
+              <ScaleIcon style={styles.icon}/>
+              <Text style={styles.text}>{exercises} exercises</Text>
+            </View>
+          )}
         </View>
       </View>
     </TouchableOpacity>
