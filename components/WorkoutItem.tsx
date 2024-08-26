@@ -6,6 +6,7 @@ import {weightFormatter} from "@/helpers/weigth-formatter";
 import {useState} from "react";
 import {useNavigation} from '@react-navigation/native'
 import {WorkoutItemNavigationProp} from "@/types/navigation";
+import {WorkoutDetails} from "@/components/navigation/workoutDetails";
 
 type Props = {
   workoutName: string;
@@ -33,26 +34,7 @@ export const WorkoutItem = ({workoutName, description, time, weight, exercises, 
           <Text style={styles.title}>{workoutName}</Text>
           <Text style={styles.text}>{description}</Text>
         </View>
-        <View style={styles.details}>
-          {detailsToShow.includes("time") && (
-            <View style={styles.detailsItem}>
-              <ClockIcon style={styles.icon}/>
-              <Text style={styles.text}>{timeFormatter(time)}</Text>
-            </View>
-          )}
-          {detailsToShow.includes("weight") && (
-            <View style={styles.detailsItem}>
-              <ScaleIcon style={styles.icon}/>
-              <Text style={styles.text}>{weightFormatter(weight)}kg</Text>
-            </View>
-          )}
-          {detailsToShow.includes("exercises") && (
-            <View style={styles.detailsItem}>
-              <ScaleIcon style={styles.icon}/>
-              <Text style={styles.text}>{exercises} exercises</Text>
-            </View>
-          )}
-        </View>
+        <WorkoutDetails detailsToShow={detailsToShow} time={time} weight={weight} exercises={exercises}/>
       </View>
     </TouchableOpacity>
   )
@@ -66,12 +48,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     display: "flex",
     flexDirection: "row",
-  },
-  details: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 12,
-    marginTop: 8,
   },
   detailsItem: {
     flexDirection: "row",

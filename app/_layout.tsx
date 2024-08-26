@@ -7,20 +7,19 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useColorScheme} from '@/hooks/useColorScheme';
 import NotFoundScreen from "@/app/+not-found";
 import HomeScreen from "@/app/(tabs)";
-import {TrainingView} from "@/app/traininig-view/trainingView";
 import {WorkoutList} from "@/app/(tabs)/workoutList";
+import {TrainingView} from "@/app/traininigView";
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function TabNavigator() {
+export function TabNavigator() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
       <Tab.Screen name={"Plans"} component={WorkoutList} options={{headerShown: false}}/>
-      {/*<Tab.Screen name="Training" component={TrainingView} />*/}
     </Tab.Navigator>
   );
 }

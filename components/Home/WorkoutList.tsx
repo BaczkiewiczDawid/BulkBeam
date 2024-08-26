@@ -46,7 +46,7 @@ export const WorkoutList = ({ title, detailsToShow }: Props ) => {
     <View style={styles.container}>
       <Text style={styles.subtitle}>{title}</Text>
       <View>
-        {workoutList.map((workout, index) => (
+        {workoutList?.map((workout, index) => (
           <WorkoutItem
             key={index}
             workoutName={workout.name}

@@ -1,6 +1,7 @@
 import {Text, StyleSheet, ScrollView} from "react-native";
 import {WorkoutList as WorkoutListComponent} from "@/components/Home/WorkoutList";
 import {SafeAreaView} from "react-native-safe-area-context";
+import {TabNavigator} from "@/app/_layout";
 
 export const WorkoutList = () => {
   return (
