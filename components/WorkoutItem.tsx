@@ -1,9 +1,5 @@
 import {View, Image, StyleSheet, Text, Button, TouchableOpacity} from "react-native";
 import dummyImage from "@/assets/images/training-image.png";
-import {ClockIcon, ScaleIcon} from "react-native-heroicons/outline";
-import {timeFormatter} from "@/helpers/time-formatter";
-import {weightFormatter} from "@/helpers/weigth-formatter";
-import {useState} from "react";
 import {useNavigation} from '@react-navigation/native'
 import {WorkoutItemNavigationProp} from "@/types/navigation";
 import {WorkoutDetails} from "@/components/navigation/workoutDetails";

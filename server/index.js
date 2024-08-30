@@ -34,6 +34,14 @@ app.post("/get-plan", async (req, res) => {
     }
 })
 
+app.post("/update-plan", async (req, res) => {
+    try {
+        console.log(req.body)
+    } catch (error) {
+        res.status(500).json({message: 'Cant update workout plan', error});
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 })

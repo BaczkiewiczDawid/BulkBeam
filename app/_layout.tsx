@@ -46,6 +46,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" component={TabNavigator} options={{headerShown: false}}/>
         <Stack.Screen name="+not-found" component={NotFoundScreen} options={{headerShown: false}}/>
         <Stack.Screen name="TrainingView" component={TrainingView} options={{headerShown: false}}/>
+        <Stack.Screen name={"Home"} component={HomeScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
