@@ -1,4 +1,5 @@
 import {Text, TextInput, View, StyleSheet} from "react-native";
+import {Exercise} from "@/types/Workout";
 
 type Props = {
   set: {
@@ -6,19 +7,57 @@ type Props = {
     weigth: number
   }
   index: number
+  exercisesList: Exercise[]
+  setExercisesList: (exercises: Exercise[]) => void
+  exerciseIndex: number
 }
 
-export const SingleSet = ({set, index}: Props) => {
+type SetType = {
+  weigth: number;
+  reps: number;
+};
+
+export const SingleSet = ({set, index, exercisesList, setExercisesList, exerciseIndex}: Props) => {
+  const setExercisesData = (value: string, index: number, field: keyof SetType) => {
+    const updatedExercises = [...exercisesList];
+    const currentExercise = updatedExercises[exerciseIndex];
+
+    if (!currentExercise || !currentExercise.sets) {
+      console.error("currentExercise or sets is undefined");
+      return;
+    }
+
+    const currentSet = currentExercise.sets[index];
+
+    if (currentSet) {
+      currentSet[field] = field === "weigth" ? parseFloat(value) : parseInt(value);
+      setExercisesList(updatedExercises);
+    } else {
+      console.error("currentSet is undefined");
+    }
+  };
+
   return (
     <View style={styles.setView}>
       <View style={styles.circle}>
         <Text style={styles.circleContent}>{index + 1}</Text>
       </View>
-      <TextInput style={styles.input} inputMode={"decimal"} placeholder={`${set.weigth}kg...`}/>
-      <TextInput style={styles.inputSmall} inputMode={"decimal"} placeholder={`${set.reps}`}/>
+      <TextInput
+        style={styles.input}
+        inputMode={"decimal"}
+        placeholder={`${set.weigth}kg...`}
+        onChange={(value) => setExercisesData(value.nativeEvent.text, index, "weigth")}
+      />
+      <TextInput
+        style={styles.inputSmall}
+        inputMode={"decimal"}
+        placeholder={`${set.reps}`}
+        onChange={(value) => setExercisesData(value.nativeEvent.text, index, "reps")}
+      />
     </View>
-  )
-}
+  );
+};
+
 
 const styles = StyleSheet.create({
   setView: {

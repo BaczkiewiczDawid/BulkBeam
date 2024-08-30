@@ -26,8 +26,6 @@ app.post("/get-plan", async (req, res) => {
         //TODO: User id as string to uuid
         const data = await db.select().from(workoutPlans).where(eq(workoutPlans.userID, userID), eq(workoutPlans.name, workoutName));
 
-        console.log(data)
-
         res.json(data)
     } catch (error) {
         res.status(500).json({message: 'Error fetching users', error});
@@ -37,6 +35,10 @@ app.post("/get-plan", async (req, res) => {
 app.post("/update-plan", async (req, res) => {
     try {
         console.log(req.body)
+
+        const data = await db.update(workoutPlans).set({planData: req.body.planData}).where(eq(workoutPlans.xata_id, req.body.xataID))
+
+        res.json(data)
     } catch (error) {
         res.status(500).json({message: 'Cant update workout plan', error});
     }

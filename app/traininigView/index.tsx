@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, ScrollView, Pressable} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {WorkoutDetails} from "@/components/navigation/workoutDetails";
 import {useEffect, useState} from "react";
-import {Workout} from "@/types/Workout";
+import {Exercise, Plan, Workout} from "@/types/Workout";
 import {SingleSet} from "@/components/workoutDetails/singleSet";
 import {PlusCircleIcon} from "react-native-heroicons/outline";
 import {Button} from "@/components/Button";
@@ -14,48 +14,63 @@ type Props = {
 }
 
 export const TrainingView = ({route}: Props) => {
-  const {workoutName} = route.params
-  const [activeWorkout, setActiveWorkout] = useState<Workout>()
-  const navigation = useNavigation<WorkoutItemNavigationProp>()
+  const {workoutName} = route.params;
+  const [activeWorkout, setActiveWorkout] = useState<Workout | undefined>(undefined);
+  const [exercisesList, setExercisesList] = useState<Exercise[]>([]);
+  const navigation = useNavigation<WorkoutItemNavigationProp>();
+  const [workoutID, setWorkoutID] = useState<string | undefined>(undefined);
+
+  console.log(activeWorkout)
 
   const getSelectedPlan = async () => {
     try {
       const response = await fetch("http://localhost:3000/get-plan", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({workoutName: workoutName, userID: 1})
-      })
+        body: JSON.stringify({workoutName: workoutName, userID: 1}),
+      });
 
-      const data = await response.json()
-
-      return data
+      const data = await response.json();
+      return data;
     } catch (error) {
-      return error
+      console.error(error);
+      return [];
     }
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getSelectedPlan()
-      setActiveWorkout(data[0])
-    }
+      const data = await getSelectedPlan();
+      if (data && data.length > 0) {
+        setActiveWorkout(data[0]);
+        setExercisesList(data[0].planData.exercises || []);
+        setWorkoutID(data[0].name);
+      }
+    };
 
-    fetchData()
-  }, [workoutName])
+    fetchData();
+  }, [workoutName]);
 
   const saveWorkout = async () => {
-    navigation.navigate("Home")
+    if (!activeWorkout) return;
 
     const response = await fetch("http://localhost:3000/update-plan", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({workoutName: workoutName, userID: 1, planData: activeWorkout?.planData})
-    })
-  }
+      body: JSON.stringify({
+        xataID: activeWorkout.xata_id,
+        planData: {
+          workoutTitle: activeWorkout.planData.workoutTitle,
+          description: activeWorkout.planData.description,
+          exercises: exercisesList,
+        },
+      }),
+    });
+  };
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -63,36 +78,43 @@ export const TrainingView = ({route}: Props) => {
         <View style={styles.header}>
           <Text style={styles.title}>{activeWorkout?.name}</Text>
           <View>
-            <WorkoutDetails
-              detailsToShow={["time", "exercises"]}
-              time={124}
-              exercises={Array(activeWorkout?.planData).length + 1}/>
-            {activeWorkout?.planData.exercises.map((exercise, exerciseIndex) => {
-              return (
-                <View key={exerciseIndex}>
-                  <View style={styles.exerciseView}>
-                    <Text style={styles.title}>{exercise.exerciseName}</Text>
-                    <View style={styles.setsContainer}>
-                      {exercise.sets.map((set, index) => {
-                        return (
-                          <SingleSet key={index} set={set} index={index}/>
-                        )
-                      })}
-                    </View>
+            {activeWorkout?.planData && (
+              <WorkoutDetails
+                detailsToShow={["time", "exercises"]}
+                time={124}
+                exercises={(activeWorkout.planData.exercises || []).length}
+              />
+            )}
+            {activeWorkout?.planData.exercises?.map((exercise, exerciseIndex) => (
+              <View key={exerciseIndex}>
+                <View style={styles.exerciseView}>
+                  <Text style={styles.title}>{exercise.exerciseName}</Text>
+                  <View style={styles.setsContainer}>
+                    {exercise.sets.map((set, index) => (
+                      <SingleSet
+                        key={index}
+                        set={set}
+                        index={index}
+                        exercisesList={exercisesList}
+                        setExercisesList={setExercisesList}
+                        exerciseIndex={exerciseIndex}
+                      />
+                    ))}
                   </View>
-                  <Pressable style={styles.addButton}>
-                    <Text style={styles.buttonText}>Add set</Text>
-                    <PlusCircleIcon/>
-                  </Pressable></View>
-              )
-            })}
+                </View>
+                <Pressable style={styles.addButton}>
+                  <Text style={styles.buttonText}>Add set</Text>
+                  <PlusCircleIcon/>
+                </Pressable>
+              </View>
+            ))}
           </View>
         </View>
         <Button name={"Save"} onPress={() => saveWorkout()}/>
       </SafeAreaView>
     </ScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

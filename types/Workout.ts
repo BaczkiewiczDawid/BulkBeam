@@ -5,13 +5,13 @@ export type Workout = {
   xata_id: string
 }
 
-type Plan = {
+export type Plan = {
   description: string,
   workoutTitle: string,
   exercises: Exercise[]
 }
 
-type Exercise = {
+export type Exercise = {
   exerciseName: string,
   sets: Set[]
 }
