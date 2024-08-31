@@ -4,7 +4,7 @@ import {WorkoutDetails} from "@/components/navigation/workoutDetails";
 import {useEffect, useState} from "react";
 import {Exercise, Plan, Workout} from "@/types/Workout";
 import {SingleSet} from "@/components/workoutDetails/singleSet";
-import {PlusCircleIcon} from "react-native-heroicons/outline";
+import {PlusCircleIcon, TrashIcon} from "react-native-heroicons/outline";
 import {Button} from "@/components/Button";
 import {useNavigation} from "@react-navigation/native";
 import {WorkoutItemNavigationProp} from "@/types/navigation";
@@ -72,6 +72,27 @@ export const TrainingView = ({route}: Props) => {
     });
   };
 
+  const newSet = (index: number) => {
+    if (!activeWorkout) return;
+
+    const newExercisesList = [...exercisesList];
+    newExercisesList[index].sets.push({
+      reps: 0,
+      weigth: 0,
+    });
+
+    setExercisesList(newExercisesList)
+  }
+
+  const deleteLastSet = (index: number) => {
+    if (!activeWorkout) return;
+
+    const newExercisesList = [...exercisesList];
+    newExercisesList[index].sets.pop();
+
+    setExercisesList(newExercisesList)
+  }
+
   return (
     <ScrollView style={styles.scrollView}>
       <SafeAreaView style={styles.container}>
@@ -102,10 +123,16 @@ export const TrainingView = ({route}: Props) => {
                     ))}
                   </View>
                 </View>
-                <Pressable style={styles.addButton}>
-                  <Text style={styles.buttonText}>Add set</Text>
-                  <PlusCircleIcon/>
-                </Pressable>
+                <View style={styles.actionButtonsContainer}>
+                  <Pressable style={styles.addButton} onPress={() => newSet(exerciseIndex)}>
+                    <Text style={styles.buttonText}>Add set</Text>
+                    <PlusCircleIcon/>
+                  </Pressable>
+                  <Pressable style={styles.deleteButton} onPress={() => deleteLastSet(exerciseIndex)}>
+                    <TrashIcon style={styles.trashIcon}/>
+                    <Text style={styles.deleteText}>Delete set</Text>
+                  </Pressable>
+                </View>
               </View>
             ))}
           </View>
@@ -181,7 +208,6 @@ const styles = StyleSheet.create({
     width: 150,
     backgroundColor: "#3050FE",
     color: "#FFFFFF",
-    marginTop: 12,
     paddingHorizontal: 20,
     paddingVertical: 6,
     borderRadius: 5,
@@ -194,4 +220,25 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 14,
   },
+  actionButtonsContainer: {
+    marginTop: 12,
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  deleteButton: {
+    marginLeft: 20,
+    color: "#FC4141",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  deleteText: {
+    color: "#FC4141",
+    marginLeft: 8,
+  },
+  trashIcon: {
+    width: 18,
+    height: 18,
+  }
 })
