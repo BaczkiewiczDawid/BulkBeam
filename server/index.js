@@ -36,7 +36,10 @@ app.post("/update-plan", async (req, res) => {
     try {
         console.log(req.body)
 
-        const data = await db.update(workoutPlans).set({planData: req.body.planData}).where(eq(workoutPlans.xata_id, req.body.xataID))
+        const data = await db.update(workoutPlans).set({
+            planData: req.body.planData,
+            name: req.body.name
+        }).where(eq(workoutPlans.xata_id, req.body.xataID))
 
         res.json(data)
     } catch (error) {

@@ -1,10 +1,10 @@
-import {View, Text, StyleSheet, ScrollView, Pressable} from "react-native";
+import {View, Text, StyleSheet, ScrollView, Pressable, TextInput} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {WorkoutDetails} from "@/components/navigation/workoutDetails";
 import {useEffect, useState} from "react";
 import {Exercise, Plan, Workout} from "@/types/Workout";
 import {SingleSet} from "@/components/workoutDetails/singleSet";
-import {PlusCircleIcon, TrashIcon} from "react-native-heroicons/outline";
+import {PencilSquareIcon, PlusCircleIcon, TrashIcon} from "react-native-heroicons/outline";
 import {Button} from "@/components/Button";
 import {useNavigation} from "@react-navigation/native";
 import {WorkoutItemNavigationProp} from "@/types/navigation";
@@ -14,11 +14,14 @@ type Props = {
 }
 
 export const TrainingView = ({route}: Props) => {
-  const {workoutName} = route.params;
+  const {defaultWorkoutName} = route.params;
+  const [workoutName, setWorkoutName] = useState(defaultWorkoutName);
   const [activeWorkout, setActiveWorkout] = useState<Workout | undefined>(undefined);
   const [exercisesList, setExercisesList] = useState<Exercise[]>([]);
   const navigation = useNavigation<WorkoutItemNavigationProp>();
   const [workoutID, setWorkoutID] = useState<string | undefined>(undefined);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newWorkoutName, setNewWorkoutName] = useState(workoutName);
 
   console.log(activeWorkout)
 
@@ -68,6 +71,7 @@ export const TrainingView = ({route}: Props) => {
           description: activeWorkout.planData.description,
           exercises: exercisesList,
         },
+        name: workoutName,
       }),
     });
   };
@@ -93,11 +97,25 @@ export const TrainingView = ({route}: Props) => {
     setExercisesList(newExercisesList)
   }
 
+  const editWorkoutName = () => {
+    if (!activeWorkout) return;
+
+    setModalOpen(true)
+  }
+
+  const saveWorkoutName = () => {
+    setWorkoutName(newWorkoutName)
+    setModalOpen(false)
+  }
+
   return (
     <ScrollView style={styles.scrollView}>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>{activeWorkout?.name}</Text>
+          <Pressable style={styles.titleContainer} onPress={editWorkoutName}>
+            <Text style={styles.title}>{workoutName ?? activeWorkout?.name}</Text>
+            <PencilSquareIcon style={styles.editIcon}/>
+          </Pressable>
           <View>
             {activeWorkout?.planData && (
               <WorkoutDetails
@@ -139,6 +157,18 @@ export const TrainingView = ({route}: Props) => {
         </View>
         <Button name={"Save"} onPress={() => saveWorkout()}/>
       </SafeAreaView>
+      {modalOpen && (
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle} aria-label="Label for workout name" nativeID="workoutName">Name</Text>
+            <TextInput style={styles.formInput} aria-label="input" aria-labelledby="workoutName"
+                       placeholder={workoutName ?? activeWorkout?.name}
+                       onChange={(value) => setNewWorkoutName(value.nativeEvent.text)}/>
+            <Pressable onPress={saveWorkoutName} style={styles.addButton}><Text
+              style={styles.buttonText}>Save</Text></Pressable>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -240,5 +270,53 @@ const styles = StyleSheet.create({
   trashIcon: {
     width: 18,
     height: 18,
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  editIcon: {
+    marginLeft: 12,
+    width: 20,
+    height: 20,
+  },
+  modalContainer: {
+    position: "absolute",
+    width: "90%",
+    minHeight: 130,
+    backgroundColor: "#FFFFFF",
+    marginLeft: 0,
+    marginRight: 0,
+    flex: 1,
+    display: "flex",
+    justifyContent: "flex-start",
+    padding: 20,
+    borderRadius: 5,
+  },
+  modalBackdrop: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(33, 50, 50, 0.5)",
+    marginLeft: 0,
+    marginRight: 0,
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  formInput: {
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "rgba(65, 65, 65, .8)",
+    width: 180,
+    paddingLeft: 12,
+    paddingVertical: 6,
+    marginTop: 8,
+    marginBottom: 12,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: "500"
   }
 })
