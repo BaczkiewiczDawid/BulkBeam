@@ -3,26 +3,25 @@ import defaultUserIcon from "@/assets/images/default-user-icon.png"
 import {SafeAreaView} from "react-native-safe-area-context";
 import {LastTraining} from "@/components/Home/LastTraining";
 import {WorkoutList} from "@/components/Home/WorkoutList";
+import {Wrapper} from "@/components/wrapper";
 
 export default function HomeScreen() {
   return (
-    <ScrollView style={styles.scrollView}>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>Welcome back</Text>
-            <Text style={styles.username}>Dawid Bączkiewicz</Text>
-          </View>
-          <View>
-            <View style={styles.userBadge}>
-              <Image source={defaultUserIcon} style={styles.userBadgeImage} resizeMode={"cover"}/>
-            </View>
+    <Wrapper>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Welcome back</Text>
+          <Text style={styles.username}>Dawid Bączkiewicz</Text>
+        </View>
+        <View>
+          <View style={styles.userBadge}>
+            <Image source={defaultUserIcon} style={styles.userBadgeImage} resizeMode={"cover"}/>
           </View>
         </View>
-        <LastTraining/>
-        <WorkoutList title={"Next workout"} detailsToShow={["time", "weight"]}/>
-      </SafeAreaView>
-    </ScrollView>
+      </View>
+      <LastTraining/>
+      <WorkoutList title={"Next workout"} detailsToShow={["time", "weight"]}/>
+    </Wrapper>
   );
 }
 

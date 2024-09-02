@@ -20,3 +20,13 @@ type Set = {
   reps: number,
   weigth: number
 }
+
+export type ExercisesList = {
+  exercisesList: {
+    exerciseName: string,
+    sets: {
+      reps: number,
+      weigth: number
+    }[]
+  }[]
+}

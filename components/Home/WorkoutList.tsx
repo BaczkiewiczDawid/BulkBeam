@@ -1,6 +1,7 @@
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet, Pressable} from "react-native";
 import {WorkoutItem} from "@/components/WorkoutItem";
 import {useEffect, useState} from "react";
+import {WorkoutHeader} from "@/components/workoutHeader";
 
 
 type Workout = {
@@ -19,7 +20,7 @@ type Props = {
   detailsToShow: string[]
 }
 
-export const WorkoutList = ({ title, detailsToShow }: Props ) => {
+export const WorkoutList = ({title, detailsToShow}: Props) => {
   const [workoutList, setWorkoutList] = useState<Workout[]>([])
 
   const getWorkoutList = async () => {
@@ -43,8 +44,7 @@ export const WorkoutList = ({ title, detailsToShow }: Props ) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.subtitle}>{title}</Text>
+    <WorkoutHeader title={title}>
       <View>
         {workoutList?.map((workout, index) => (
           <WorkoutItem
@@ -58,7 +58,7 @@ export const WorkoutList = ({ title, detailsToShow }: Props ) => {
           />
         ))}
       </View>
-    </View>
+    </WorkoutHeader>
   )
 }
 

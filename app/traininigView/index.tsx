@@ -8,6 +8,8 @@ import {PencilSquareIcon, PlusCircleIcon, TrashIcon} from "react-native-heroicon
 import {Button} from "@/components/Button";
 import {useNavigation} from "@react-navigation/native";
 import {WorkoutItemNavigationProp} from "@/types/navigation";
+import {Wrapper} from "@/components/wrapper";
+import {ExerciseView} from "@/components/exerciseView";
 
 type Props = {
   route: any;
@@ -109,8 +111,8 @@ export const TrainingView = ({route}: Props) => {
   }
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <SafeAreaView style={styles.container}>
+    <>
+      <Wrapper>
         <View style={styles.header}>
           <Pressable style={styles.titleContainer} onPress={editWorkoutName}>
             <Text style={styles.title}>{workoutName ?? activeWorkout?.name}</Text>
@@ -126,21 +128,11 @@ export const TrainingView = ({route}: Props) => {
             )}
             {activeWorkout?.planData.exercises?.map((exercise, exerciseIndex) => (
               <View key={exerciseIndex}>
-                <View style={styles.exerciseView}>
-                  <Text style={styles.title}>{exercise.exerciseName}</Text>
-                  <View style={styles.setsContainer}>
-                    {exercise.sets.map((set, index) => (
-                      <SingleSet
-                        key={index}
-                        set={set}
-                        index={index}
-                        exercisesList={exercisesList}
-                        setExercisesList={setExercisesList}
-                        exerciseIndex={exerciseIndex}
-                      />
-                    ))}
-                  </View>
-                </View>
+                <ExerciseView
+                  exercise={exercise}
+                  exercisesList={exercisesList}
+                  setExercisesList={setExercisesList}
+                  exerciseIndex={exerciseIndex}/>
                 <View style={styles.actionButtonsContainer}>
                   <Pressable style={styles.addButton} onPress={() => newSet(exerciseIndex)}>
                     <Text style={styles.buttonText}>Add set</Text>
@@ -156,7 +148,7 @@ export const TrainingView = ({route}: Props) => {
           </View>
         </View>
         <Button name={"Save"} onPress={() => saveWorkout()}/>
-      </SafeAreaView>
+      </Wrapper>
       {modalOpen && (
         <View style={styles.modalBackdrop}>
           <View style={styles.modalContainer}>
@@ -169,7 +161,7 @@ export const TrainingView = ({route}: Props) => {
           </View>
         </View>
       )}
-    </ScrollView>
+    </>
   );
 };
 
