@@ -20,7 +20,7 @@ export default function HomeScreen() {
           </View>
         </View>
         <LastTraining/>
-        <WorkoutList/>
+        <WorkoutList title={"Next workout"} detailsToShow={["time", "weight"]}/>
       </SafeAreaView>
     </ScrollView>
   );
