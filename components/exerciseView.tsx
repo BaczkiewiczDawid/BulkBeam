@@ -1,6 +1,6 @@
 import {Text, View, StyleSheet} from "react-native";
 import {SingleSet} from "@/components/workoutDetails/singleSet";
-import {Exercise, ExercisesList} from "@/types/Workout";
+import {Exercise} from "@/types/Workout";
 
 type Props = {
   exercise: {

@@ -1,10 +1,9 @@
-import {Text, StyleSheet, ScrollView, Pressable} from "react-native";
+import {StyleSheet, ScrollView} from "react-native";
 import {WorkoutList as WorkoutListComponent} from "@/components/Home/WorkoutList";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {TabNavigator} from "@/app/_layout";
-import {PlusIcon} from "react-native-heroicons/outline";
 import {useNavigation} from "@react-navigation/native";
 import {WorkoutItemNavigationProp} from "@/types/navigation";
+import {OverlayButton} from "@/components/overlayButton";
 
 export const WorkoutList = () => {
   const navigation = useNavigation<WorkoutItemNavigationProp>()
@@ -20,7 +19,7 @@ export const WorkoutList = () => {
           <WorkoutListComponent title={"Plans list"} detailsToShow={["time", "exercises"]}/>
         </SafeAreaView>
       </ScrollView>
-      <Pressable onPress={handleNewWorkout} style={styles.addCircleButton}><PlusIcon style={styles.icon}/></Pressable>
+      <OverlayButton onPress={handleNewWorkout}/>
     </>
   )
 }

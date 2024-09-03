@@ -10,6 +10,7 @@ import {useNavigation} from "@react-navigation/native";
 import {WorkoutItemNavigationProp} from "@/types/navigation";
 import {Wrapper} from "@/components/wrapper";
 import {ExerciseView} from "@/components/exerciseView";
+import {AddOrEditButton} from "@/components/addOrEditButton";
 
 type Props = {
   route: any;
@@ -134,14 +135,7 @@ export const TrainingView = ({route}: Props) => {
                   setExercisesList={setExercisesList}
                   exerciseIndex={exerciseIndex}/>
                 <View style={styles.actionButtonsContainer}>
-                  <Pressable style={styles.addButton} onPress={() => newSet(exerciseIndex)}>
-                    <Text style={styles.buttonText}>Add set</Text>
-                    <PlusCircleIcon/>
-                  </Pressable>
-                  <Pressable style={styles.deleteButton} onPress={() => deleteLastSet(exerciseIndex)}>
-                    <TrashIcon style={styles.trashIcon}/>
-                    <Text style={styles.deleteText}>Delete set</Text>
-                  </Pressable>
+                  <AddOrEditButton onPressDelete={() => deleteLastSet(exerciseIndex)} onPressAdd={() => newSet(exerciseIndex)}/>
                 </View>
               </View>
             ))}
@@ -226,43 +220,7 @@ const styles = StyleSheet.create({
   setsContainer: {
     marginTop: 10,
   },
-  addButton: {
-    width: 150,
-    backgroundColor: "#3050FE",
-    color: "#FFFFFF",
-    paddingHorizontal: 20,
-    paddingVertical: 6,
-    borderRadius: 5,
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-  },
-  actionButtonsContainer: {
-    marginTop: 12,
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  deleteButton: {
-    marginLeft: 20,
-    color: "#FC4141",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  deleteText: {
-    color: "#FC4141",
-    marginLeft: 8,
-  },
-  trashIcon: {
-    width: 18,
-    height: 18,
-  },
+
   titleContainer: {
     display: "flex",
     flexDirection: "row",
@@ -310,5 +268,27 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 16,
     fontWeight: "500"
-  }
+  },
+  actionButtonsContainer: {
+    marginTop: 12,
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  addButton: {
+    width: 150,
+    backgroundColor: "#3050FE",
+    color: "#FFFFFF",
+    paddingHorizontal: 20,
+    paddingVertical: 6,
+    borderRadius: 5,
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+  },
 })

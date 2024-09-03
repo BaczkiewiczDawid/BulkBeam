@@ -10,6 +10,7 @@ import HomeScreen from "@/app/(tabs)";
 import {WorkoutList} from "@/app/(tabs)/workoutList";
 import {TrainingView} from "@/app/traininigView";
 import {NewWorkout} from "@/app/newWorkout";
+import {ExerciseList} from "@/app/exerciseList";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +50,7 @@ export default function RootLayout() {
         <Stack.Screen name="TrainingView" component={TrainingView} options={{headerShown: false}}/>
         <Stack.Screen name={"Home"} component={HomeScreen} options={{headerShown: false}}/>
         <Stack.Screen name={"NewWorkout"} component={NewWorkout} options={{headerShown: false}}/>
+        <Stack.Screen name={"ExerciseList"} component={ExerciseList} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

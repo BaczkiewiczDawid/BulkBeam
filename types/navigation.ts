@@ -5,6 +5,7 @@ export type RootStackParamList = {
   TrainingView: any;
   Home: any;
   NewWorkout: any;
+  ExerciseList: any | { id: string };
 };
 
 export type WorkoutItemNavigationProp = StackNavigationProp<RootStackParamList, 'WorkoutItem'>;

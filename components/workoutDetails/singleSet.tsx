@@ -38,7 +38,7 @@ export const SingleSet = ({set, index, exercisesList, setExercisesList, exercise
   };
 
   return (
-    <View style={styles.setView}>
+    <View style={styles.setView} key={index}>
       <View style={styles.circle}>
         <Text style={styles.circleContent}>{index + 1}</Text>
       </View>
